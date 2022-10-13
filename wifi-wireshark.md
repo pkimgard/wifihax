@@ -12,7 +12,7 @@
 *Set channel:*
 
 ```
-sudo iw dev wlan0 channel X
+sudo iw dev wlan0 set channel X
 ```
 
 *Go through channel once:*
@@ -27,23 +27,97 @@ for c in {1..14}; do sudo iw dev wlan0 set channel $c && sleep 1; done
 wlan_radio.frequency == XXXX
 ```
 
-## Display filters
+## Sorting out
 
-*Main categories:*
+A complement to the standard Statistics -> Conversations(fiter for IEEE 802.11) is WLAN-Traffic under the Wireless menu. This will get you a good overview of what have been captured with different nets, base stations and traffic.
 
-* ieee80211.
-* wlan.
+### 802.11 Types and subtypes
 
-## Capture filter
+* [802.11 Frame Types, Wikipedia](https://en.wikipedia.org/wiki/802.11_Frame_Types)
+
+**Type 0: Management**
+
+Negotiates and control the relationships between AP and clients.
+
+Notable subtypes:
+
+* (8)Beacon - Basic network information and timestamps, sent out about 10 times/second.
+* (4-5)Probe - Sent out by clients to find APs.
+* (11)Authentication - What it sounds like, same frame used by both client and AP.
+* (0-1)Association - After authentication, request and response.
+* (12)Deauthentication - By client or AP, "leaves the network".
+
+**Type 1: Control**
+
+Aids in the delivery of data frames.
+
+Notable subtypes:
+
+* (11)RTS - Request-to-send
+* (12)CTS - Clear-to-send
+* (13)ACK - Sent after receiving a unicast packet.
+
+**Type 2: Data**
+
+The actual data/information.
+
+Notable subtypes:
+
+* (0) Data
+* (4) Null Function - Example: Before and after going into power saving mode.s
+* (8) QoS Data - Data with a QoS-field.
+* (12) QoS Null - Equivalent of 4 but with QoS-field.
+
+(**Type 3: Extension**)
+
+### Filtering types
+
+```
+# Capture filter
+type mgt | ctl | data
+
+# Display filter
+wlan.fc.type == 0 | 1 | 2 | 3
+```
+
+### Filtering subtypes
+
+```
+# Capture filter
+subtype beacon | probe-req | probe-resp
+
+# Display filter
+wlan.fc.subtype == 0 | 1 | ..
+```
+
+## Additional filtering
+
+### Capture filters
 
 * [Tcpdump pcap-filter manpange](https://www.tcpdump.org/manpages/pcap-filter.7.html)
 
 *Common/userful:*
 
 ```
-subtype beacon | probe-req | probe-resp
-type ctl
 wlan addr1 XX:XX:XX:XX:XX:XX
+```
+
+### Display filters
+
+*Main categories:*
+
+* ieee80211.
+* wlan.
+
+```
+# Source and destination addresses
+wlan.sa | da
+
+# Transmitter and receiver addresses
+wlan.ta | ra
+
+# WPA authentication packets:
+eapol
 ```
 
 ## Remote capturing

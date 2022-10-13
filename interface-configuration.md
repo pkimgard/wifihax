@@ -5,8 +5,15 @@
 ## Change adapter mode
 
 ```
+# Shutdown interface first
 sudo ip link set wlan0 down
+
+# Using iwconfig
 sudo iwconfig wlan0 mode monitor
+# Using iw
+iw dev wlan0 set monitor none
+
+# Bring up interface
 sudo ip link set wlan0 up
 ```
 
@@ -30,15 +37,20 @@ iw dev wlan0 info
 iw dev wlan0 info | grep type | cut -d " " -f 2
 ```
 
-# Check if interface is detected, recognised, has driver etc
+## Get interface information
 
 ```
 sudo airmon-ng
-
-# Other useful commands
 iw list
-lsusb
 iw dev wlan info
+iw phy0 channels
+lsusb
+```
+
+## Which channel am I currently using
+
+```
+iwlist wlp62s0 channel | grep Current | cut -d ":" -f 2
 ```
 
 # Gett a USB WLAN adapter working in VM/Virtualbox
