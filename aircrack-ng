@@ -1,0 +1,48 @@
+# Aircrack-ng suite
+
+## airmon
+
+*Basic operation:*
+
+```
+sudo airmon-ng [--verbose | --debug]
+sudo airmon-ng check
+sudo airmon-ng check kill
+sudo airmon-ng start IFNAME [channel id]
+```
+
+*Manually connecting to a wifi network after disabling NetworkManager:*
+
+```
+sudo ip link set wlan0 up
+sudo iwlist wlan0 scan | grep SSID
+wpa_passphrase "SSID" Password > wifi.cnf
+sudo wpa_supplicant -i wlan0 -c wifi.cnf -B
+sudo dhclient wlan0
+```
+
+## airodump
+
+*Basic operation:*
+
+```
+sudo airodump-ng IFNAME
+
+# Output
+-w FILENAME
+--output-format {pcap | [csv | log.csv | kismet.csv] kismet.netxml}
+
+# Precision
+-c CHANNEL_ID
+--bssid BSSID
+```
+
+*Interactive mode:*
+
+* Current selection are displyaed at top right in window.
+
+* [SPACE] - Freeze/continue display
+* [TAB] - Enable AP selection, use arrow keys to go up and down in list
+* [A] - Choose what to view(stations, clients)
+* [S] - Change sorting, invert with [I], reset with [D].
+* [M] - Colorise selection
