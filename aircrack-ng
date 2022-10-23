@@ -1,5 +1,7 @@
 # Aircrack-ng suite
 
+* [Docs](https://aircrack-ng.org/documentation.html)
+
 ## airmon
 
 *Basic operation:*
@@ -46,3 +48,51 @@ sudo airodump-ng IFNAME
 * [A] - Choose what to view(stations, clients)
 * [S] - Change sorting, invert with [I], reset with [D].
 * [M] - Colorise selection
+
+## aireplay
+
+*Injection test:*
+
+```
+# Put interface in monitor mode on desired channel with airmon-ng.
+
+# Discover all injectable APs:
+sudo aireplay-ng -9 wlan0mon
+
+# Test a specific AP/BSSID:
+sudo aireplay-ng -9 -e ESSID -a BSSID wlan0mon
+
+# Check injection with another wifi interface:
+sudo aireplay -9 -i wlan1mon wlan0mon
+```
+
+## aircrack
+
+```
+
+# Check performance
+sudo aircrack-ng -S
+```
+
+## airdecap
+
+*Only show data messages from a specific bssid:*
+
+```
+sudo airdecap-ng -b BSSID FILENAME.cap
+```
+
+## airgraph
+
+airgraph-ng uses the csv output of airodump-ng to create visual graphs of networks.
+
+```
+# Create input file with airodump-ng:
+sudo airodump-ng -w dump.csv
+
+# Create a Client-to-AP relationship graph:
+airgraph-ng -o capr.png -i dump.csv -g CAPR 
+
+# Create a client-probe graph:
+airgraph-ng -o capr.png -i dump.csv -g CPG
+```
