@@ -2,6 +2,21 @@
 
 * [Docs](https://aircrack-ng.org/documentation.html)
 
+## Cracking a WPA protected network with aircrack-ng suite
+
+0. Set up your network interfaces(airmon-ng).
+1. Enumerate networks within reach, find your target(airodump-ng, airgraph-ng). 
+2. Start a new capture only monitoring that network(airodump-ng).
+3. Send deauthentication packets to capture a handshake(aireplay-ng).
+4. Crack the key(aircrack-ng).
+5. Profit
+
+Example of the steps above:
+
+```
+
+```
+
 ## airmon
 
 *Basic operation:*
